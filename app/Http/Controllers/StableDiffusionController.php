@@ -7,6 +7,10 @@ use RuliLG\StableDiffusion\Models\StableDiffusionResult;
 use RuliLG\StableDiffusion\StableDiffusion;
 use RuliLG\StableDiffusion\Prompt;
 use Illuminate\Http\Request;
+use RuliLG\StableDiffusion\Traits\HasFinishingTouches;
+use RuliLG\StableDiffusion\Traits\HasPaintingStyles;
+use RuliLG\StableDiffusion\Traits\HasAuthors;
+use RuliLG\StableDiffusion\Traits\HasCanvases;
 
 class StableDiffusionController extends Controller
 {
@@ -33,47 +37,30 @@ class StableDiffusionController extends Controller
     {
         $input = $request->all();
         $options = $input['options'];
-        // dd($options);
-        // $input['options'] = implode(",", $options);
+        $effects = Prompt::make();
 
-        StableDiffusion::make()->withPrompt(Prompt::make()
-            ->with($request->input('insertPrompt'), '')
-                ->$request->input($options))
-                    ->generate($request->input('many'));
+        $effects->with($request->input('insertPrompt'), '');
+        foreach ($options as $option) {
+            call_user_func(array($effects, $option));
+        }
+
+        StableDiffusion::make()->withPrompt($effects)            
+        ->generate($request->input('many'));
+
+        return view('dashboard', [
+            'options' => $options
+        ]);
     }
 
 
     public function getLink()
     {
         $user_id = Auth::user()->id;
-        $result = StableDiffusionResult::where(['user_id'=>$user_id])->get();
+        $result = StableDiffusionResult::where(['user_id' => $user_id])->get();
 
         $freshResults = StableDiffusion::get($result[0]['replicate_id']);
         if ($freshResults->is_successful) {
-            dd($freshResults->output);
+            dd($freshResults->full_prompt);
         }
-    }
-
-    public function withModifiers()
-    {
-
-        $select_options = array(
-            array(
-                'name' => 'realistic()',
-                'value' => 'realistic',
-            ),
-            array(
-                'name' => 'hyperrealistic()',
-                'value' => 'hyperrealistic',
-            ),
-            array(
-                'name' => 'conceptArt()',
-                'value' => 'concept art',
-            ),
-        );
-        
-        return view('dashboard', [
-            'select_options' => $select_options,
-        ]);
     }
 }

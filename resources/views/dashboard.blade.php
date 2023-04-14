@@ -12,22 +12,6 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col">
-            <label for="options-select">
-                Definições
-            </label>
-                <select name="options" id="options-select" class="selectpicker" multiple data-live-search="true">
-                    <option value="photograph()">Fotografia</option>
-                    <option value="resolution8k()">Resolução 8k</option>
-                    <option value="trendingOnArtStation()">ArtStation</option>
-                    <option value="highlyDetailed()">Detalhado</option>
-                    <option value="dramaticLighting()">Luz dramática</option>
-                    <option value="octaneRender()">OctaneRender</option>
-                </select>
-        </div>
-    </div>
-
     <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -52,13 +36,13 @@
                                 <label for="options-select">
                                     Definições
                                 </label>
-                                    <select name="options" id="options-select" class="selectpicker" multiple data-live-search="true">
-                                        <option value="photograph()">Fotografia</option>
-                                        <option value="resolution8k()">Resolução 8k</option>
-                                        <option value="trendingOnArtStation()">ArtStation</option>
-                                        <option value="highlyDetailed()">Detalhado</option>
-                                        <option value="dramaticLighting()">Luz dramática</option>
-                                        <option value="octaneRender()">OctaneRender</option>
+                                    <select name="options[]" id="options-select" class="selectpicker" multiple="multiple" data-live-search="true">
+                                        <option value="photograph">Fotografia</option>
+                                        <option value="resolution8k">Resolução 8k</option>
+                                        <option value="trendingOnArtStation">ArtStation</option>
+                                        <option value="highlyDetailed">Detalhado</option>
+                                        <option value="dramaticLighting">Luz dramática</option>
+                                        <option value="octaneRender">OctaneRender</option>
                                     </select>
                             </div>
                         </div>
